@@ -16,7 +16,7 @@ import android.widget.VideoView;
 import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
-
+//git check
 public class MainActivity extends AppCompatActivity {
     final Handler handler = new Handler();
     Timer timer = new Timer();
