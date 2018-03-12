@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
     int        duration = 0;
     String timeDuration = "0:00";
     String currDuration = "0:00";
+    Boolean Scheduled = false;
 
     String SourceURL = "https://s3.amazonaws.com/interview-quiz-stuff/tos/master.m3u8";
 
@@ -55,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        timer.schedule(task, 100 , 1000);  // interval of .5 sec
+
         final TextView durationTime = findViewById(R.id.duration_time);
         videoView    = findViewById(R.id.videoView);
         btnPlayPause = findViewById(R.id.play_pause_btn);
@@ -70,7 +71,6 @@ public class MainActivity extends AppCompatActivity {
                     if (!videoView.isPlaying()) {
                         mDialog.show();
                         setCurrentPosition();
-                        task.run();
                         Uri uri = Uri.parse(SourceURL);
                         videoView.setVideoURI(uri);
                         videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
@@ -116,6 +116,11 @@ public class MainActivity extends AppCompatActivity {
                         durationTime.setText(timeDuration);
                         videoView.start();
                         btnPlayPause.setImageResource(R.drawable.ic_pause);
+                        if(!Scheduled) {
+                            timer.schedule(task, 0 , 1000);
+                            Scheduled = true;
+                        }
+                        else task.run();
                     }
                 });
             }
