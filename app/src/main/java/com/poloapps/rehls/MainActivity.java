@@ -12,7 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
-
+//git check
 public class MainActivity extends AppCompatActivity {
     Handler mHandler;
     private Runnable mRunnable = new Runnable() {
@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
             mHandler.postDelayed(mRunnable, 1000);
         }
     };
+    int count = 0;
     ProgressDialog mDialog;
     VideoView      videoView;
     ImageButton    btnPlayPause;
@@ -102,12 +103,17 @@ public class MainActivity extends AppCompatActivity {
                 });
             }
         });
+
+
     }
     public void useHandler() {
         mHandler = new Handler();
         mHandler.postDelayed(mRunnable, 1000);
     }
     private void setCurrentPosition(){
+        Toast.makeText(getBaseContext(), Integer.toString(count),
+                Toast.LENGTH_SHORT).show();
+        count++;
         final TextView currentTime = findViewById(R.id.current_time);
         currPosition = videoView.getCurrentPosition() / 1000;
         if (currPosition < 60) {
