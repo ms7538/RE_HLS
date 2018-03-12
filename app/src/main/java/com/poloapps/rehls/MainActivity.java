@@ -1,7 +1,6 @@
 package com.poloapps.rehls;
 
 import android.app.ProgressDialog;
-import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Handler;
@@ -13,31 +12,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
-import java.util.Locale;
-import java.util.Timer;
-import java.util.TimerTask;
-//git check
-public class MainActivity extends AppCompatActivity {
-    final Handler handler = new Handler();
-    Timer timer = new Timer();
 
-    TimerTask task = new TimerTask() {
+public class MainActivity extends AppCompatActivity {
+    Handler mHandler;
+    private Runnable mRunnable = new Runnable() {
         @Override
         public void run() {
-            handler.post(new Runnable() {
-                public void run() {
-                    try {
-                        Toast.makeText(getBaseContext(), "task started",
-                                Toast.LENGTH_SHORT).show();
-                        setCurrentPosition();
-                    } catch (Exception e) {
-                        // error, do something
-                    }
-                }
-            });
+            setCurrentPosition();
+            mHandler.postDelayed(mRunnable, 1000);
         }
     };
-
     ProgressDialog mDialog;
     VideoView      videoView;
     ImageButton    btnPlayPause;
@@ -47,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
     int        duration = 0;
     String timeDuration = "0:00";
     String currDuration = "0:00";
-    Boolean Scheduled = false;
 
     String SourceURL = "https://s3.amazonaws.com/interview-quiz-stuff/tos/master.m3u8";
 
@@ -55,8 +38,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
+        useHandler();
+        mHandler.removeCallbacks(mRunnable);
         final TextView durationTime = findViewById(R.id.duration_time);
         videoView    = findViewById(R.id.videoView);
         btnPlayPause = findViewById(R.id.play_pause_btn);
@@ -83,10 +66,7 @@ public class MainActivity extends AppCompatActivity {
 
                     } else {
                         videoView.pause();
-                        task.cancel();
-                        setCurrentPosition();
-                        Toast.makeText(getBaseContext(), "task canceled",
-                                Toast.LENGTH_SHORT).show();
+                        mHandler.removeCallbacks(mRunnable);
                         stopPosition = videoView.getCurrentPosition();
                         mDialog.dismiss();
                         btnPlayPause.setImageResource(R.drawable.ic_play);
@@ -114,19 +94,18 @@ public class MainActivity extends AppCompatActivity {
                             timeDuration = mins + ":" + sec;
                         }
                         durationTime.setText(timeDuration);
+                        useHandler();
                         videoView.start();
                         btnPlayPause.setImageResource(R.drawable.ic_pause);
-                        if(!Scheduled) {
-                            timer.schedule(task, 0 , 1000);
-                            Scheduled = true;
-                        }
-                        else task.run();
+
                     }
                 });
             }
         });
-
-
+    }
+    public void useHandler() {
+        mHandler = new Handler();
+        mHandler.postDelayed(mRunnable, 1000);
     }
     private void setCurrentPosition(){
         final TextView currentTime = findViewById(R.id.current_time);
@@ -143,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onPause() {
         super.onPause();
-        task.cancel();
+        mHandler.removeCallbacks(mRunnable);
     }
 
 }
