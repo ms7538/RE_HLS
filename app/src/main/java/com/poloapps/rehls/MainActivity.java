@@ -20,7 +20,6 @@ public class MainActivity extends AppCompatActivity {
     ProgressDialog mDialog;
     VideoView videoView;
     ImageButton btnPlayPause;
-    int progress2 = 0;
     int stopPosition = 0;
     int currPosition = 0;
     int progPosition = 0;
@@ -58,24 +57,15 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                // TODO Auto-generated method stub
                 seek(seekBar.getProgress());
                 setSeekPosition();
             }
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-                // TODO Auto-generated method stub
-            }
+            public void onStartTrackingTouch(SeekBar seekBar) {}
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                // TODO Auto-generated method stub
-                progress2 = progress;
-
-            }
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {}
         });
-
-        videoURI();
-        videoFocus();
+        
     }
 
     private void seek(int pos){
