@@ -26,6 +26,7 @@
             android:layout_height="fill_parent"
             android:contentDescription="@string/play_button"
             android:src="@drawable/ic_play" />
+
         <LinearLayout
             android:orientation="horizontal"
             android:layout_height="wrap_content"
@@ -61,8 +62,9 @@
         <ProgressBar
             android:id="@+id/Progressbar"
             style="@android:style/Widget.ProgressBar.Horizontal"
-            android:layout_width="match_parent"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:background="@android:color/holo_blue_light"
             android:color="@android:color/white" />
 
     </LinearLayout>
