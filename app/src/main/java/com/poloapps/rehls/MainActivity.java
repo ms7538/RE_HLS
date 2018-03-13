@@ -36,7 +36,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+
         final TextView durationTime = findViewById(R.id.duration_time);
+        //final ProgressBar progressBar = findViewById(R.id.Progressbar);
 
         videoView    = findViewById(R.id.videoView);
         btnPlayPause = findViewById(R.id.play_pause_btn);
@@ -100,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
     private Runnable mRunnable = new Runnable() {
         @Override
         public void run() {
