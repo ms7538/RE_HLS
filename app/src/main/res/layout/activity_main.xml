@@ -59,8 +59,8 @@
 
         </LinearLayout>
 
-        <ProgressBar
-            android:id="@+id/Progressbar"
+        <SeekBar
+            android:id="@+id/Seekbar"
             style="@android:style/Widget.ProgressBar.Horizontal"
             android:clickable ="true"
             android:layout_width="fill_parent"
