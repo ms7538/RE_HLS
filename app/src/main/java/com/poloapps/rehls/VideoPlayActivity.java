@@ -37,24 +37,30 @@ public class VideoPlayActivity extends AppCompatActivity {
     int currPosition = 0;
     int progPosition = 0;
     int duration = 1;
-    Boolean started = false;
+
     String timeDuration = "0:00";
     String currDuration = "0:00";
+    String selSource_0  = "https://s3.amazonaws.com/interview-quiz-stuff/tos-trailer/master.m3u8";
+    String selSource_1  = "https://s3.amazonaws.com/interview-quiz-stuff/tos/master.m3u8";
 
-    String SourceURL = "https://s3.amazonaws.com/interview-quiz-stuff/tos/master.m3u8";
+    String SourceURL = selSource_0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SharedPreferences mSettings = this.getSharedPreferences("Settings", 0);
         setContentView(R.layout.activity_video_view);
-        videoView = findViewById(R.id.videoView);
-        btnPlayPause = findViewById(R.id.play_pause_btn);
-        Boolean autoPlay = mSettings.getBoolean("AP", true);
-        if(autoPlay) {
-            setDiag();
-            play_start();
-        }
+
+       int source = getIntent().getIntExtra("src",0);
+       if (source == 1) SourceURL = selSource_1;
+
+       videoView = findViewById(R.id.videoView);
+       btnPlayPause = findViewById(R.id.play_pause_btn);
+       Boolean autoPlay = mSettings.getBoolean("AP", true);
+       if (autoPlay) {
+           setDiag();
+           play_start();
+       }
     }
 
     @Override

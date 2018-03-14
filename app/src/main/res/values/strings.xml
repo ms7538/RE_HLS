@@ -7,4 +7,8 @@
     <string name="tos_teaser">TOS Teaser</string>
     <string name="tos_clip">TOS CLIP</string>
     <string name="src_val">SRC VAL</string>
+    <string-array name="src_array">
+        <item>TOS-Teaser</item>
+        <item>TOS-Clip</item>
+    </string-array>
 </resources>
