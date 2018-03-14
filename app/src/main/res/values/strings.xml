@@ -3,4 +3,8 @@
     <string name="play_button">Play Button</string>
     <string name="zero_zero">0:00</string>
     <string name="for_slash">/</string>
+    <string name="x">x</string>
+    <string name="tos_teaser">TOS Teaser</string>
+    <string name="tos_clip">TOS CLIP</string>
+    <string name="src_val">SRC VAL</string>
 </resources>
