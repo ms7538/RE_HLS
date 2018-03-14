@@ -21,14 +21,13 @@ public class VideoPlayActivity extends AppCompatActivity {
         public void run() {
             setCurrentPosition();
             mHandler.postDelayed(mRunnable, 1000);
-
-
         }
     };
     public void useHandler() {
         mHandler = new Handler();
         mHandler.postDelayed(mRunnable, 1000);
     }
+    int source = 0;
     Handler mHandler;
     ProgressDialog mDialog;
     VideoView videoView;
@@ -51,7 +50,7 @@ public class VideoPlayActivity extends AppCompatActivity {
         SharedPreferences mSettings = this.getSharedPreferences("Settings", 0);
         setContentView(R.layout.activity_video_view);
 
-       int source = getIntent().getIntExtra("src",0);
+       source = getIntent().getIntExtra("src",0);
        if (source == 1) SourceURL = selSource_1;
 
        videoView = findViewById(R.id.videoView);
@@ -78,7 +77,6 @@ public class VideoPlayActivity extends AppCompatActivity {
         });
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 seek(seekBar.getProgress());
@@ -159,14 +157,6 @@ public class VideoPlayActivity extends AppCompatActivity {
     private void videoURI() {
         Uri uri = Uri.parse(SourceURL);
         videoView.setVideoURI(uri);
-        videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                btnPlayPause.setImageResource(R.drawable.ic_play);
-                stopPosition = 0;
-            }
-        });
-
     }
 
     private void videoFocus() {
@@ -176,7 +166,28 @@ public class VideoPlayActivity extends AppCompatActivity {
             @Override
             public void onPrepared(MediaPlayer mp) {
                 mDialog.dismiss();
-                mp.setLooping(true);
+                mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        // seamless transition
+                        if (source == 0 ){
+                            SourceURL = selSource_1;
+                            source = 1;
+                        }
+                        else {
+                            SourceURL = selSource_0;
+                            source = 0;
+                        }
+                        Uri uri = Uri.parse(SourceURL);
+                        videoView.setVideoURI(uri);
+                        btnPlayPause.setImageResource(R.drawable.ic_play);
+                        stopPosition = 0;
+                        play_start();
+                    }
+
+                });
+
                 if(stopPosition > 0) videoView.seekTo(stopPosition);
                 duration = videoView.getDuration() / 1000;
                 if(duration < 10) timeDuration = "0:0" + duration;
@@ -195,7 +206,6 @@ public class VideoPlayActivity extends AppCompatActivity {
             }
         });
     }
-
 
     private void setCurrentPosition(){
 
@@ -216,7 +226,6 @@ public class VideoPlayActivity extends AppCompatActivity {
         }
         currentTime.setText(currDuration);
     }
-
 
     @Override
     public void onPause() {
